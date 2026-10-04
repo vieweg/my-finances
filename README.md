@@ -19,6 +19,14 @@ docker compose up -d
 
 Open <http://localhost:8080> and log in as `admin` with the password `please_change_me`, then change it right away.
 
+To choose the first account's credentials yourself, set them when starting for the first time:
+
+```bash
+ADMIN_USERNAME=me ADMIN_PASSWORD='a long password' ADMIN_EMAIL=me@example.com docker compose up -d
+```
+
+You can also put these in `.env` (see below). They are only read when the database is first set up. After that, change the username or password from the app.
+
 This starts MySQL, the API and the web app. Database migrations run each time the API starts, and the JWT secrets are generated on first start. The database, the secrets and the daily backups live in Docker volumes (`db-data` and `api-data`), so they survive `docker compose down` but are removed by `docker compose down -v`.
 
 Everything works with the defaults. To change the port, database password, time zone or email settings, copy [`.env.example`](.env.example) to `.env` and edit it. Set `DB_PASSWORD` before the first start: the database reads it only when it is created.
@@ -59,12 +67,6 @@ Keep `APP_PORT` bound to `127.0.0.1` whenever `TRUST_PROXY=2`. If the app port w
 
 **Password reset emails** are sent through [Brevo](https://www.brevo.com/). Fill in the `BREVO_*` settings in `.env` to enable them. Without them, everything else works, but a forgotten password can't be reset by email.
 
-**Back up your data.** The app keeps a daily backup of each user's data in the `api-data` volume, which can be restored from the app itself. These backups live on the same server, so also copy a full database dump somewhere else regularly:
-
-```bash
-docker compose exec -T db sh -c 'mysqldump -u controle_caixa -p"$MYSQL_PASSWORD" controle_caixa' > controle-caixa.sql
-```
-
 ## Development setup
 
 Prerequisites: Node.js 20+ and a MySQL 8 database.
@@ -84,7 +86,7 @@ npm install
 npm run dev               # http://localhost:5173
 ```
 
-The first migration creates an `admin` user with the password `please_change_me`. Log in and change it right away.
+The first migration creates an `admin` user with the password `please_change_me` (or the `ADMIN_USERNAME`, `ADMIN_PASSWORD` and `ADMIN_EMAIL` from `backend/.env`, if set). Log in and change it right away.
 
 See [backend/readme.md](backend/readme.md) and [frontend/README.md](frontend/README.md) for configuration, testing and deployment details.
 
