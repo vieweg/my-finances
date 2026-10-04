@@ -19,6 +19,8 @@ import { currencyFilter } from './middlewares/currencyFilter';
 import { spec } from './swagger';
 
 const app = express();
+// Number of reverse proxies in front of the API, so req.ip (rate limiting) is the client's
+if (process.env.TRUST_PROXY) app.set('trust proxy', Number(process.env.TRUST_PROXY));
 app.use(helmet());
 app.use(express.json({ limit: '50kb' }));
 app.use(

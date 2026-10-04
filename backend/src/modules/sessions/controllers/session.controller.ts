@@ -12,7 +12,8 @@ const REFRESH_COOKIE = 'refresh_token';
 
 const refreshCookieOptions = () => ({
   httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
+  // COOKIE_SECURE=false lets production run over plain HTTP (e.g. self-hosted on a LAN)
+  secure: process.env.COOKIE_SECURE ? process.env.COOKIE_SECURE === 'true' : process.env.NODE_ENV === 'production',
   sameSite: 'lax' as const,
   path: '/api/sessions',
   maxAge:

@@ -1,0 +1,61 @@
+# Self-hosted stack: MySQL, the API and the web app on one origin.
+# Usage: docker compose up -d   then open http://localhost:8080
+# Optional settings go in a .env file next to this one (see .env.example).
+
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: controle_caixa
+      MYSQL_USER: controle_caixa
+      MYSQL_PASSWORD: ${DB_PASSWORD:-controle_caixa}
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      # TCP ping only succeeds once the init-time server (no networking) has been replaced
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  api:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      FRONTEND_URL: ${APP_URL:-http://localhost:8080}
+      TRUST_PROXY: 1
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: controle_caixa
+      DB_PASSWORD: ${DB_PASSWORD:-controle_caixa}
+      DB_NAME: controle_caixa
+      JWT_SECRET: ${JWT_SECRET:-}
+      JWT_SECRET_REFRESH: ${JWT_SECRET_REFRESH:-}
+      JWT_RESET_SECRET: ${JWT_RESET_SECRET:-}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-15m}
+      JWT_EXPIRATION_REFRESH: ${JWT_EXPIRATION_REFRESH:-7d}
+      APP_TIMEZONE: ${APP_TIMEZONE:-UTC}
+      SEND_LOGS: ${SEND_LOGS:-false}
+      BREVO_API_KEY: ${BREVO_API_KEY:-}
+      BREVO_FROM_NAME: ${BREVO_FROM_NAME:-}
+      BREVO_FROM_EMAIL: ${BREVO_FROM_EMAIL:-}
+    volumes:
+      - api-data:/data
+
+  web:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "${APP_PORT:-8080}:80"
+
+volumes:
+  db-data:
+  api-data:
