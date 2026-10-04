@@ -17,15 +17,7 @@ The quickest way to self-host: you only need Docker.
 docker compose up -d
 ```
 
-Open <http://localhost:8080> and log in as `admin` with the password `please_change_me`, then change it right away.
-
-To choose the first account's credentials yourself, set them when starting for the first time:
-
-```bash
-ADMIN_USERNAME=me ADMIN_PASSWORD='a long password' ADMIN_EMAIL=me@example.com docker compose up -d
-```
-
-You can also put these in `.env` (see below). They are only read when the database is first set up. After that, change the username or password from the app.
+Open <http://localhost:8080>. On the first visit you are asked to create your account; after that, the page shows the usual login.
 
 This starts MySQL, the API and the web app. Database migrations run each time the API starts, and the JWT secrets are generated on first start. The database, the secrets and the daily backups live in Docker volumes (`db-data` and `api-data`), so they survive `docker compose down` but are removed by `docker compose down -v`.
 
@@ -61,7 +53,7 @@ To make the app reachable at, for example, `https://cash.example.com`, run the D
 
    If you already run nginx, use a `server` block for your domain with `proxy_pass http://127.0.0.1:8080;`, forward the `Host`, `X-Forwarded-For` and `X-Forwarded-Proto` headers, and get a certificate with [Certbot](https://certbot.eff.org/).
 
-4. **Log in and change the admin password** at `https://cash.example.com`.
+4. **Create your account right away** by opening `https://cash.example.com`. Until the first account exists, anyone who can reach the site could create it.
 
 Keep `APP_PORT` bound to `127.0.0.1` whenever `TRUST_PROXY=2`. If the app port were open to the internet, clients could bypass the proxy and fake their IP address to get around the login rate limit.
 
@@ -86,7 +78,7 @@ npm install
 npm run dev               # http://localhost:5173
 ```
 
-The first migration creates an `admin` user with the password `please_change_me` (or the `ADMIN_USERNAME`, `ADMIN_PASSWORD` and `ADMIN_EMAIL` from `backend/.env`, if set). Log in and change it right away.
+On the first visit to the web app you are asked to create your account.
 
 See [backend/readme.md](backend/readme.md) and [frontend/README.md](frontend/README.md) for configuration, testing and deployment details.
 

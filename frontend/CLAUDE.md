@@ -57,7 +57,7 @@ Thin page components that compose feature hooks and components. All data-fetchin
 
 ### Routing (`src/router/index.tsx`)
 
-React Router v7 `createBrowserRouter`. Public routes: `/login`, `/forgot-password`, `/reset-password`. All other routes are wrapped in a `ProtectedRoute` (checks token in storage) and rendered inside `AppLayout`.
+React Router v7 `createBrowserRouter`. Public routes: `/login`, `/setup`, `/forgot-password`, `/reset-password`. While no account exists (`GET /api/setup` returns `needsSetup: true`), `/login` redirects to `/setup`, where the first account is created. All other routes are wrapped in a `ProtectedRoute` (checks token in storage) and rendered inside `AppLayout`.
 
 ### State management (`src/store/`)
 

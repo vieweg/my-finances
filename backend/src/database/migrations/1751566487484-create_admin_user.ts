@@ -1,25 +1,10 @@
-import { MigrationInterface, QueryRunner } from 'typeorm';
-import bcrypt from 'bcrypt';
-import { User } from '../../modules/users/models/user.model';
+import { MigrationInterface } from 'typeorm';
 
-// The first account; set ADMIN_* to choose its credentials (read only when this migration runs)
-const email = process.env.ADMIN_EMAIL || 'admin@example.com';
-const name = 'Admin';
-const usuario = process.env.ADMIN_USERNAME || 'admin';
-const password = process.env.ADMIN_PASSWORD || 'please_change_me';
-
+// Used to seed an admin account. The first account is now created on first access
+// (see modules/setup); this stays as a no-op so databases that already ran it keep a
+// consistent migration history.
 export class CreateAdminUser1751566487484 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<void> {
-    const encriptedPassword = bcrypt.hashSync(password, 10);
-    await queryRunner.manager.insert(User, {
-      name: name,
-      email: email,
-      password: encriptedPassword,
-      username: usuario,
-    });
-  }
+  public async up(): Promise<void> {}
 
-  public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.manager.delete(User, { email: email });
-  }
+  public async down(): Promise<void> {}
 }

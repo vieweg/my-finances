@@ -6,6 +6,7 @@ import { refreshAccessToken } from "@/api/client";
 import ErrorPage from "@/pages/ErrorPage";
 
 const LoginPage = lazy(() => import("@/pages/LoginPage"));
+const SetupPage = lazy(() => import("@/pages/SetupPage"));
 const ForgotPasswordPage = lazy(() => import("@/pages/ForgotPasswordPage"));
 const ResetPasswordPage = lazy(() => import("@/pages/ResetPasswordPage"));
 const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
@@ -46,6 +47,7 @@ const PageSpinner = () => (
 
 export const router = createBrowserRouter([
   { path: "/login", element: <Suspense fallback={<PageSpinner />}><LoginPage /></Suspense>, errorElement: <ErrorPage /> },
+  { path: "/setup", element: <Suspense fallback={<PageSpinner />}><SetupPage /></Suspense>, errorElement: <ErrorPage /> },
   { path: "/forgot-password", element: <Suspense fallback={<PageSpinner />}><ForgotPasswordPage /></Suspense>, errorElement: <ErrorPage /> },
   { path: "/reset-password", element: <Suspense fallback={<PageSpinner />}><ResetPasswordPage /></Suspense>, errorElement: <ErrorPage /> },
   {

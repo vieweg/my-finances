@@ -618,6 +618,100 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/setup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get setup status
+         * @description `needsSetup` is true while no account exists, i.e. before the first account is created.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Setup status */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            needsSetup: boolean;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /**
+         * Create the first account
+         * @description Only allowed while no account exists. Log in afterwards with the new credentials.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        name: string;
+                        username: string;
+                        /** Format: email */
+                        email: string;
+                        password: string;
+                        /** @description Must match password */
+                        confirmPassword: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Account created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["User"];
+                    };
+                };
+                /** @description Validation error */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ValidationError"];
+                    };
+                };
+                /** @description Setup has already been completed */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Error"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/transactions/summary": {
         parameters: {
             query?: never;

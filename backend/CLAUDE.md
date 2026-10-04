@@ -44,7 +44,7 @@ middlewares/     Module-specific validation (Joi schemas)
 dtos/            TypeScript interfaces for input/output shapes
 ```
 
-Modules: `users`, `sessions`, `transactions`, `tags`, `wallets`, `contacts`, `invoices`.
+Modules: `users`, `sessions`, `setup` (first-access account creation), `transactions`, `tags`, `wallets`, `contacts`, `invoices`.
 
 ### Request lifecycle
 
@@ -61,4 +61,4 @@ Global error handling: `src/middlewares/errorHandler.ts` catches `AppError` inst
 
 ### Testing
 
-Tests are integration tests — they hit a real MySQL database defined in `.env.test`. Jest global setup (`tests/global/setupTests.ts`) initialises and tears down the DataSource and seeds an admin user. Test files live in `tests/*.test.ts` and use supertest against the Express app.
+Tests are integration tests — they hit a real MySQL database defined in `.env.test`. Jest global setup (`tests/global/globalSetup.ts`) runs the migrations and seeds the admin user the tests log in with; `tests/global/setupTests.ts` initialises and tears down the DataSource per test file. Test files live in `tests/*.test.ts` and use supertest against the Express app.

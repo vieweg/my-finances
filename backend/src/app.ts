@@ -12,6 +12,7 @@ import contactRoutes from './modules/contacts/routes/contact.routes';
 import invoiceRoutes from './modules/invoices/routes/invoice.routes';
 import contractRoutes from './modules/contracts/routes/contract.routes';
 import backupRoutes from './modules/backups/routes/backup.routes';
+import setupRoutes from './modules/setup/routes/setup.routes';
 import { errorHandler } from './middlewares/errorHandler';
 import { RequestsLog } from './middlewares/requestLog';
 import { authenticated } from './middlewares/authenticated';
@@ -36,6 +37,7 @@ if (process.env.NODE_ENV === 'development') app.use(RequestsLog);
 // Routes
 app.use('/api/sessions', sessionRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/setup', setupRoutes);
 app.use('/api/transactions', authenticated, currencyFilter, transactionRoutes);
 app.use('/api/tags', authenticated, tagRoutes);
 app.use('/api/wallets', authenticated, currencyFilter, walletRoutes);

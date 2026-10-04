@@ -1,6 +1,7 @@
 import { schemas } from './schemas';
 import { sessionsPaths } from './modules/sessions';
 import { usersPaths } from './modules/users';
+import { setupPaths } from './modules/setup';
 import { transactionsPaths } from './modules/transactions';
 import { tagsPaths } from './modules/tags';
 import { walletsPaths } from './modules/wallets';
@@ -26,6 +27,7 @@ const spec = {
   tags: [
     { name: 'Sessions', description: 'Authentication — login, refresh, logout' },
     { name: 'Users', description: 'User management' },
+    { name: 'Setup', description: 'First access: create the first account' },
     { name: 'Transactions', description: 'Cash flow transactions with full version history' },
     { name: 'Tags', description: 'User-scoped transaction tags' },
     {
@@ -40,6 +42,7 @@ const spec = {
   paths: {
     ...sessionsPaths,
     ...usersPaths,
+    ...setupPaths,
     ...transactionsPaths,
     ...tagsPaths,
     ...walletsPaths,

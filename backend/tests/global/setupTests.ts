@@ -10,7 +10,7 @@ afterAll(async () => {
   await dataSource.destroy();
 });
 
-// User data created from seeds/migration
+// User created in globalSetup.ts
 const adminUserCredentials = {
   username: 'admin',
   email: 'admin@example.com',

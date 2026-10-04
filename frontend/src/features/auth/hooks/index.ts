@@ -5,3 +5,5 @@ export { useUpdateUser } from "./useUpdateUser";
 export { useForgotPassword } from "./useForgotPassword";
 export { useResetPassword } from "./useResetPassword";
 export { useLogoutAllSessions } from "./useLogoutAllSessions";
+export { useSetupStatus } from "./useSetupStatus";
+export { useCompleteSetup } from "./useCompleteSetup";
