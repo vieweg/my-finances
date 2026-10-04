@@ -1,0 +1,13 @@
+node_modules
+dist
+coverage
+.env
+.env.test
+*.local
+*.log
+*.sql
+*.sql.gz
+backups
+.claude/settings.local.json
+.DS_Store
+.idea
