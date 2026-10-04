@@ -9,7 +9,7 @@ This is a **public, open source** repository containing two independent npm proj
 
 There is no root `package.json`; run npm commands inside the relevant folder. The frontend's API types are generated from the backend's OpenAPI spec (`cd frontend && npm run generate-api` with the backend running), so a backend API change usually means regenerating them in the same commit.
 
-CI (`.github/workflows/ci.yml`) runs backend tests against a throwaway MySQL and lints/tests/builds the frontend.
+There is no CI: before committing, run the backend tests (they need a MySQL test database, see `backend/CLAUDE.md`) and the frontend's `npm run lint && npm run test:run && npm run build`.
 
 ## Never commit
 
